@@ -82,11 +82,7 @@ val EXPIRATION_OFFSET = 60 * 1000
 
 data class BlockaConfig(
         val adblocking: Boolean = true,
-        val blockaVpn: Boolean = false,
-        val accountId: String = "",
-        val restoredAccountId: String = "",
-        val activeUntil: Date = Date(0),
-        val leaseActiveUntil: Date = Date(0),
+        val blockaVpn: Boolean = true,
         val privateKey: String = "",
         val publicKey: String = "",
         val gatewayId: String = "",
@@ -98,15 +94,12 @@ data class BlockaConfig(
         val lastDaily: Long = 0L
 ) {
 
-    fun getAccountExpiration() = Date(activeUntil.time - EXPIRATION_OFFSET)
-    fun getLeaseExpiration() = Date(leaseActiveUntil.time - EXPIRATION_OFFSET)
-
     fun hasGateway(): Boolean {
         return gatewayId.isNotBlank() && gatewayIp.isNotBlank() && gatewayPort != 0
     }
 
     override fun toString(): String {
-        return "BlockaConfig(acc=$accountId, restAcc=$restoredAccountId, adblocking=$adblocking, blockaVpn=$blockaVpn, activeUntil=$activeUntil, leaseActiveUntil=$leaseActiveUntil, publicKey='$publicKey', gatewayId='$gatewayId', gatewayIp='$gatewayIp', gatewayPort=$gatewayPort, vip4='$vip4', vip6='$vip6')"
+        return "BlockaConfig(adblocking=$adblocking, blockaVpn=$blockaVpn, publicKey='$publicKey', gatewayId='$gatewayId', gatewayIp='$gatewayIp', gatewayPort=$gatewayPort, vip4='$vip4', vip6='$vip6')"
     }
 }
 

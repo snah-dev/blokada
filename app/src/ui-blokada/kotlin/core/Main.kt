@@ -9,7 +9,6 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import blocka.newRestApiModule
 import buildtype.newBuildTypeModule
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.KodeinAware
@@ -51,7 +50,6 @@ class MainApplication: Application(), KodeinAware {
         import(newUpdateModule(this@MainApplication))
         import(newKeepAliveModule(this@MainApplication))
         import(newBatteryModule(this@MainApplication))
-        import(newRestApiModule(this@MainApplication))
         import(newAppModule(this@MainApplication), allowOverride = true)
         import(newFlavorModule(this@MainApplication), allowOverride = true)
         import(newBuildTypeModule(this@MainApplication), allowOverride = true)

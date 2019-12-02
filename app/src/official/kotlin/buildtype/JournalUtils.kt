@@ -439,7 +439,6 @@ class DeviceInfo(private val context: Context) {
 
 object Constants {
 
-    val EVENT_LOG_URL = "https://journal.blokada.org/"
     val PACKAGE_NAME = "org.blokada"
     val LIBRARY = BuildConfig.FLAVOR
     val VERSION = "v3"

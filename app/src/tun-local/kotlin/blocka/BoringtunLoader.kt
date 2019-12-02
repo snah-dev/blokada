@@ -27,7 +27,6 @@ internal class BoringtunLoader {
                 supported = false
                 e("failed loading boringtun", ex)
             }
-            v(blokadaUserAgent())
         }
     }
 

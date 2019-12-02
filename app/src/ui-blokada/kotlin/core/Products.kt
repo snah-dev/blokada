@@ -8,13 +8,7 @@ enum class Product {
 
     companion object {
         fun current(ctx: Context): Product {
-            return when(ctx.packageName) {
-                "org.blokada",
-                "org.blokada.origin.alarm",
-                "org.blokada.alarm" -> Product.FULL
-                "org.blokada.alarm.dnschanger" -> Product.GOOGLE
-                else -> Product.FULL
-            }
+            return Product.FULL
         }
     }
 }
@@ -33,7 +27,7 @@ enum class ProductType {
         }
 
         fun isPublic(): Boolean {
-            return current() in listOf(RELEASE, OFFICIAL)
+            return true
         }
     }
 }

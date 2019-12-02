@@ -45,7 +45,7 @@ fun hasNewAnnouncement(): Boolean {
         ann.contentUrl.isBlank() -> false
         ann.title.isBlank() -> false
         else -> {
-            val isSubscriber = get(CurrentAccount::class.java).activeUntil.after(Date())
+            val isSubscriber = true
             ann.showForSubscribers || !isSubscriber
         }
     }

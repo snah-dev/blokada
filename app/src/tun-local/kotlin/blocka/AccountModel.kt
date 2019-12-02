@@ -4,30 +4,26 @@ import android.os.Build
 import java.util.*
 
 data class CurrentAccount(
-        val id: String = "",
-        val activeUntil: Date = Date(0),
-        val privateKey: String = "",
-        val publicKey: String = "",
-        val lastAccountCheck: Long = 0,
-        val accountOk: Boolean = false,
+        var id : String = "1",
+        val privateKey: String = "", // wireguard private key
+        val publicKey: String = "", // wireguard public key
         val migration: Int = 0,
         val unsupportedForVersionCode: Int = 0
 ) {
     override fun toString(): String {
         // No account ID and private key
-        return "CurrentAccount(activeUntil=$activeUntil, publicKey='$publicKey', lastAccountCheck=$lastAccountCheck, accountOk=$accountOk, migration=$migration)"
+        return "CurrentAccount(publicKey='$publicKey', migration=$migration)"
     }
 }
 
 data class CurrentLease(
-        val gatewayId: String = "",
-        val gatewayIp: String = "",
-        val gatewayPort: Int = 0,
-        val gatewayNiceName: String = "",
-        val vip4: String = "",
+        val gatewayId: String = "", // wireguard public key
+        val gatewayIp: String = "", // wireguard endpoint
+        val gatewayPort: Int = 0, // wireguard endpoint port
+        val gatewayNiceName: String = "Nice", // just alias
+        val vip4: String = "", // wireguard Address
         val vip6: String = "",
-        val leaseActiveUntil: Date = Date(0),
-        val leaseOk: Boolean = false,
+        val leaseOk: Boolean = true,
         val migration: Int = 0
 )
 

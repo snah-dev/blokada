@@ -169,7 +169,6 @@ internal class BlockaVpnConfigurator(
 
         v("vpn addresses: ${currentLease.vip4}, ${currentLease.vip6}")
         builder.addAddress(currentLease.vip4, 32)
-        builder.addAddress(currentLease.vip6, 128)
 
         IPV4_PUBLIC_NETWORKS.forEach {
             val (ip, mask) = it.split("/")

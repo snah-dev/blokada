@@ -51,9 +51,9 @@ class AccountVB(
     private fun update() {
         val cfg = get(CurrentAccount::class.java)
         view?.apply {
-            val isActive = cfg.activeUntil.after(Date())
+            val isActive = true
             val (accountLabel, color) = if (isActive)
-                i18n.getString(R.string.slot_account_label_active, cfg.activeUntil.pretty(ktx)) to R.color.switch_on.res()
+                i18n.getString(R.string.slot_account_label_active, " ") to R.color.switch_on.res()
             else i18n.getString(R.string.slot_account_label_inactive) to R.color.switch_off.res()
 
             id(i18n.getString(R.string.menu_vpn_account_id, "******").res())
@@ -99,9 +99,9 @@ class AccountGoogleVB(
     private fun update() {
         val cfg = get(CurrentAccount::class.java)
         view?.apply {
-            val isActive = cfg.activeUntil.after(Date())
+            val isActive = true
             val accountLabel = if (isActive)
-                i18n.getString(R.string.slot_account_label_active, cfg.activeUntil.pretty(ktx))
+                i18n.getString(R.string.slot_account_label_active, " ")
             else i18n.getString(R.string.slot_account_label_inactive)
 
             label(accountLabel.res())

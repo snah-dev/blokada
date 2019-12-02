@@ -95,7 +95,7 @@ class HomeDashboardSectionVB(
                 added = null
             }
 
-            val noSubscription = cfg.activeUntil.before(Date())
+            val noSubscription = false
             val (slot, name) = decideOnSlot(noSubscription)
             if (slot != null && added == null) {
                 items = items.subList(0, slotPosition) + listOf(slot) + items.subList(slotPosition, items.size)

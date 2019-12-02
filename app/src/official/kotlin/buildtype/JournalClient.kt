@@ -57,7 +57,6 @@ class JournalClient(instance: String) {
     internal var uploadingCurrently = AtomicBoolean(false)
 
     internal var lastError: Throwable? = null
-    internal var url = Constants.EVENT_LOG_URL
     internal var logThread = WorkerThread("logThread")
     internal var httpThread = WorkerThread("httpThread")
 
@@ -816,103 +815,7 @@ class JournalClient(instance: String) {
 
 
     protected fun makeEventUploadPostRequest(client: OkHttpClient, events: String, maxEventId: Long, maxIdentifyId: Long) {
-        val apiVersionString = "" + Constants.API_VERSION
-        val timestampString = "" + currentTimeMillis
-
-        var checksumString = ""
-        try {
-            val preimage = apiVersionString + apiKey + events + timestampString
-
-            val messageDigest = buildtype.MD5()
-            checksumString = bytesToHexString(messageDigest.digest(preimage.toByteArray(charset("UTF-8"))))
-        } catch (e: UnsupportedEncodingException) {
-            logger.e(TAG, e.toString())
-        }
-
-        val body = FormBody.Builder()
-                .add("v", apiVersionString)
-                .add("client", apiKey!!)
-                .add("e", events)
-                .add("upload_time", timestampString)
-                .add("checksum", checksumString)
-                .build()
-
-        val request: Request
-        try {
-            request = Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .build()
-        } catch (e: IllegalArgumentException) {
-            logger.e(TAG, e.toString())
-            uploadingCurrently.set(false)
-            return
-        }
-
-        var uploadSuccess = false
-
-        try {
-            val response = client.newCall(request).execute()
-            val stringResponse = response.body()!!.string()
-            if (stringResponse == "success") {
-                uploadSuccess = true
-                logThread.post(Runnable {
-                    if (maxEventId >= 0) dbHelper?.removeEvents(maxEventId)
-                    if (maxIdentifyId >= 0) dbHelper?.removeIdentifys(maxIdentifyId)
-                    uploadingCurrently.set(false)
-                    if (dbHelper?.totalEventCount ?: 0 > eventUploadThreshold) {
-                        logThread.post(Runnable { updateServer(backoffUpload) })
-                    } else {
-                        backoffUpload = false
-                        backoffUploadBatchSize = eventUploadMaxBatchSize
-                    }
-                })
-            } else if (stringResponse == "invalid_api_key") {
-                logger.e(TAG, "Invalid API key, make sure your API key is correct in initialize()")
-            } else if (stringResponse == "bad_checksum") {
-                logger.w(TAG,
-                        "Bad checksum, post request was mangled in transit, will attempt to reupload later")
-            } else if (stringResponse == "request_db_write_failed") {
-                logger.w(TAG,
-                        "Couldn't write to request database on server, will attempt to reupload later")
-            } else if (response.code() == 413) {
-
-                if (backoffUpload && backoffUploadBatchSize == 1) {
-                    if (maxEventId >= 0) dbHelper!!.removeEvent(maxEventId)
-                    if (maxIdentifyId >= 0) dbHelper!!.removeIdentify(maxIdentifyId)
-                }
-
-                backoffUpload = true
-                val numEvents = Math.min(dbHelper!!.eventCount.toInt(), backoffUploadBatchSize)
-                backoffUploadBatchSize = Math.ceil(numEvents / 2.0).toInt()
-                logger.w(TAG, "Request too large, will decrease size and attempt to reupload")
-                logThread.post(Runnable {
-                    uploadingCurrently.set(false)
-                    updateServer(true)
-                })
-            } else {
-                logger.w(TAG, "Upload failed, " + stringResponse
-                        + ", will attempt to reupload later")
-            }
-        } catch (e: java.net.ConnectException) {
-            lastError = e
-        } catch (e: java.net.UnknownHostException) {
-            lastError = e
-        } catch (e: IOException) {
-            logger.e(TAG, e.toString())
-            lastError = e
-        } catch (e: AssertionError) {
-            logger.e(TAG, "Exception:", e)
-            lastError = e
-        } catch (e: Exception) {
-            logger.e(TAG, "Exception:", e)
-            lastError = e
-        }
-
-        if (!uploadSuccess) {
-            uploadingCurrently.set(false)
-        }
-
+        // NOOP
     }
 
     fun getDeviceId(): String? {

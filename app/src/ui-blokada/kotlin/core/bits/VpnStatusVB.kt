@@ -58,8 +58,7 @@ class VpnStatusVB(
                     icon(R.drawable.ic_shield_plus_outline.res())
                     switch(false)
                     label(R.string.home_vpn_disabled.res())
-                    if (account.activeUntil.after(Date())) state(R.string.home_account_active.res())
-                    else state(R.string.home_touch.res())
+                    state(R.string.home_account_active.res())
                 }
                 else -> {
                     icon(R.drawable.ic_shield_plus.res(), color = R.color.switch_on.res())

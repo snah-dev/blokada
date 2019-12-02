@@ -15,8 +15,7 @@ class ManageAccountVB(
 
     override fun attach(view: BitView) {
         val cfg = get(CurrentAccount::class.java)
-        val isActive = cfg.activeUntil.after(Date())
-        val label = if (isActive) R.string.slot_account_action_manage
+        val label = if (true) R.string.slot_account_action_manage
             else R.string.slot_account_action_manage_inactive
         view.label(label.res())
         view.alternative(true)
